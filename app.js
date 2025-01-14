@@ -101,12 +101,10 @@ app.post('/tce', async (req, res) => {
       });
     }
   } catch (error) {
-    return res
-      .status(500)
-      .send({
-        error: 'Erro ao atualizar a tabela tces.',
-        details: error.message,
-      });
+    return res.status(500).send({
+      error: 'Erro ao atualizar a tabela tces.',
+      details: error.message,
+    });
   }
 
   res.status(200).send({ message: 'Arquivo salvo com sucesso!', filePath });
@@ -120,12 +118,10 @@ app.get('/tces', async (req, res) => {
       .orderBy('nomeEstagiario', 'asc');
     res.status(200).send(records);
   } catch (error) {
-    res
-      .status(500)
-      .send({
-        error: 'Erro ao buscar os registros na tabela tces.',
-        details: error.message,
-      });
+    res.status(500).send({
+      error: 'Erro ao buscar os registros na tabela tces.',
+      details: error.message,
+    });
   }
 });
 
