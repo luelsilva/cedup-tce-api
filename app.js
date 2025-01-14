@@ -129,6 +129,45 @@ app.get('/tces', async (req, res) => {
   }
 });
 
+// Endpoint para obter a última versão de um JSON por idUnico
+app.get('/tce/:idUnico', (req, res) => {
+  const { idUnico } = req.params;
+  const folderName = `./tce/${idUnico}`;
+
+  // Verifica se a pasta existe
+  if (!fs.existsSync(folderName)) {
+    return res
+      .status(404)
+      .send({ error: 'Pasta não encontrada para o idUnico fornecido.' });
+  }
+
+  // Lê os arquivos existentes na pasta
+  const files = fs.readdirSync(folderName);
+
+  // Filtra apenas arquivos JSON e determina a última versão
+  const versions = files
+    .filter((file) => file.endsWith('.json'))
+    .map((file) => parseInt(file.replace('.json', ''), 10))
+    .sort((a, b) => b - a); // Ordena em ordem decrescente
+
+  const lastVersion =
+    versions.length > 0 ? versions[0].toString().padStart(3, '0') : null;
+  const lastFilePath = lastVersion
+    ? path.join(folderName, `${lastVersion}.json`)
+    : null;
+
+  // Verifica se há uma última versão
+  if (!lastFilePath || !fs.existsSync(lastFilePath)) {
+    return res
+      .status(404)
+      .send({ error: 'Nenhuma versão encontrada para o idUnico fornecido.' });
+  }
+
+  // Lê e retorna o conteúdo do arquivo
+  const fileContent = fs.readFileSync(lastFilePath, 'utf-8');
+  res.status(200).send(JSON.parse(fileContent));
+});
+
 // Inicia o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
