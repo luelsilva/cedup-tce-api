@@ -1,6 +1,6 @@
 # cedup-tce-api
 
-# coamndos do Knex
+# comandos do Knex
 
 ## Executa todas as migrations pendentes na ordem correta
 
