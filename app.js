@@ -16,7 +16,7 @@ const db = knex({
     filename: process.env.DB_FILE || './database.sqlite',
   },
   useNullAsDefault: true,
-  debug: true,
+  // debug: true,
 });
 
 // Middleware para processar JSON no body das requisições
