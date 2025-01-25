@@ -110,6 +110,14 @@ app.post('/tce', async (req, res) => {
   res.status(200).send({ message: 'Arquivo salvo com sucesso!', filePath });
 });
 
+// Endpoint para teste
+app.get('/', async (req, res) => {
+  res.status(200).send({
+    API: 'API-Cedup-TCE',
+    Versão: '1.0',
+  });
+});
+
 // Endpoint para obter todos os registros da tabela tces ordenados por nomeEstagiario
 app.get('/tces', async (req, res) => {
   try {
