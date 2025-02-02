@@ -23,7 +23,13 @@ const db = knex({
 app.use(express.json());
 
 // Middleware para habilitar CORS
-app.use(cors());
+// app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://www.lco.com.br');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 // Endpoint para receber e salvar o JSON
 app.post('/tce', async (req, res) => {
