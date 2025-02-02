@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const knex = require('knex');
+const { log } = require('console');
 require('dotenv').config();
 
 const app = express();
@@ -26,10 +27,22 @@ app.use(express.json());
 // app.use(cors());
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://www.lco.com.br');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
+
+// funcao sha-256
+async function sha256(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+  return hashHex;
+}
 
 // Endpoint para receber e salvar o JSON
 app.post('/tce', async (req, res) => {
@@ -67,7 +80,13 @@ app.post('/tce', async (req, res) => {
   // Verifica se o conteúdo da última versão é igual ao novo JSON
   if (lastFilePath && fs.existsSync(lastFilePath)) {
     const lastFileContent = fs.readFileSync(lastFilePath, 'utf-8');
-    if (JSON.stringify(jsonObject) === lastFileContent) {
+
+    data = JSON.parse(lastFileContent);
+
+    sha1 = await sha256(JSON.stringify(jsonObject));
+    sha2 = await sha256(JSON.stringify(data));
+
+    if (sha1 === sha2) {
       return res
         .status(200)
         .send({ message: 'Nenhuma alteração detectada. Arquivo não salvo.' });
