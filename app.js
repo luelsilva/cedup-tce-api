@@ -172,6 +172,26 @@ app.get('/tce/:idUnico', (req, res) => {
   res.status(200).send(JSON.parse(fileContent));
 });
 
+// Endpoint para deletar um registro e sua pasta correspondente
+app.delete('/tce/:idUnico', async (req, res) => {
+  const { idUnico } = req.params;
+  const folderPath = `./tce/${idUnico}`;
+
+  try {
+    await db('tces').where({ idUnico }).del();
+    if (fs.existsSync(folderPath)) {
+      fs.rmSync(folderPath, { recursive: true, force: true });
+    }
+    res
+      .status(200)
+      .send({ message: 'Registro e pasta deletados com sucesso!' });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ error: 'Erro ao deletar o registro.', details: error.message });
+  }
+});
+
 // Inicia o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
