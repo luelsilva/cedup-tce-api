@@ -93,6 +93,7 @@ app.post('/tce', async (req, res) => {
       // Insere um novo registro
       await db('tces').insert({
         idUnico: jsonObject.idUnico,
+        matriculaEstagiario: jsonObject.matriculaEstagiario || null,
         nomeEstagiario: jsonObject.nomeEstagiario || null,
         nomeEmpresa: jsonObject.nomeEmpresa || null,
         ultimaVersao: nextVersion,
