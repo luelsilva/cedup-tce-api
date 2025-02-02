@@ -1,6 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable('tces', function (table) {
     table.string('idUnico').primary();
+    table.string('matriculaEstagiario');
     table.string('nomeEstagiario');
     table.string('nomeEmpresa');
     table.integer('ultimaVersao');
@@ -9,7 +10,6 @@ exports.up = function (knex) {
 
     // Adiciona índices
     table.index('nomeEstagiario'); // Índice para nomeEstagiario
-    table.index('nomeEmpresa'); // Índice para nomeEmpresa
   });
 };
 
