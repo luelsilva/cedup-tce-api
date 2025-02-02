@@ -133,7 +133,7 @@ app.post('/tce', async (req, res) => {
     });
   }
 
-  res.status(200).send({ message: 'Arquivo salvo com sucesso!', filePath });
+  res.status(200).send({ message: 'Arquivo salvo com sucesso!' });
 });
 
 // Endpoint para teste
