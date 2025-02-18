@@ -205,7 +205,7 @@ app.delete('/tce/:idUnico', async (req, res) => {
   const folderPath = `./tce/${idUnico}`;
 
   if (senha !== '123') {
-    return res.status(403).send({ error: 'Senha inválida.' });
+    return res.status(403).send({ message: 'Senha inválida.' });
   }
 
   try {
@@ -219,7 +219,7 @@ app.delete('/tce/:idUnico', async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .send({ error: 'Erro ao deletar o registro.', details: error.message });
+      .send({ message: 'Erro ao deletar o registro.', details: error.message });
   }
 });
 
