@@ -204,10 +204,7 @@ app.delete('/tce/:idUnico', async (req, res) => {
   const { senha } = req.body;
   const folderPath = `./tce/${idUnico}`;
 
-  console.log(senha);
-  console.log(senha !== '123');
-
-  if (senha !== '123') {
+  if (senha !== '12345678') {
     return res.status(403).send({ message: 'Senha inválida.' });
   }
 
