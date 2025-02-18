@@ -207,14 +207,17 @@ app.delete('/tce/:idUnico', async (req, res) => {
     await db('tces').where({ idUnico }).del();
     if (fs.existsSync(folderPath)) {
       fs.rmSync(folderPath, { recursive: true, force: true });
+      console.log('passo 1');
     }
     res
       .status(200)
       .send({ message: 'Registro e pasta deletados com sucesso!' });
+    console.log('passo 2');
   } catch (error) {
     res
       .status(500)
       .send({ error: 'Erro ao deletar o registro.', details: error.message });
+    console.log('passo 3');
   }
 });
 
