@@ -201,7 +201,12 @@ app.get('/tce/:idUnico', (req, res) => {
 // Endpoint para deletar um registro e sua pasta correspondente
 app.delete('/tce/:idUnico', async (req, res) => {
   const { idUnico } = req.params;
+  const { senha } = req.body;
   const folderPath = `./tce/${idUnico}`;
+
+  if (senha !== '123') {
+    return res.status(403).send({ error: 'Senha inválida.' });
+  }
 
   try {
     await db('tces').where({ idUnico }).del();
