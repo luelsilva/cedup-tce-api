@@ -141,11 +141,11 @@ app.post('/tce', async (req, res) => {
   res.status(200).send({ message: 'Arquivo salvo com sucesso!' });
 });
 
-// Endpoint para teste
+// Endpoint da versão
 app.get('/', async (req, res) => {
   res.status(200).send({
     API: 'API-Cedup-TCE',
-    Versão: '1.0',
+    Versão: '01/03/2025 22:17',
   });
 });
 
