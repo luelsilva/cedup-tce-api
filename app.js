@@ -110,10 +110,15 @@ app.post('/tce', async (req, res) => {
 
     if (existingRecord) {
       // Atualiza o registro existente
-      await db('tces').where({ idUnico: jsonObject.idUnico }).update({
-        ultimaVersao: nextVersion,
-        dataAlteracao: db.fn.now(),
-      });
+      await db('tces')
+        .where({ idUnico: jsonObject.idUnico })
+        .update({
+          ultimaVersao: nextVersion,
+          dataAlteracao: db.fn.now(),
+          matriculaEstagiario: jsonObject.matriculaEstagiario || null,
+          nomeEstagiario: jsonObject.nomeEstagiario || null,
+          nomeEmpresa: jsonObject.nomeEmpresa || null,
+        });
     } else {
       // Insere um novo registro
       await db('tces').insert({
