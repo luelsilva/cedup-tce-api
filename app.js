@@ -6,12 +6,15 @@ const cors = require('cors');
 const knex = require('knex');
 require('dotenv').config();
 
+const os = require('os');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const VERSAO = {
   API: 'API-Cedup-TCE',
   Versão: '08/03/2025 07:57',
   Porta: PORT,
+  NomeHost: os.hostname(),
 };
 
 // Configuração do banco de dados SQLite com o Knex
