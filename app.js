@@ -5,6 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const knex = require('knex');
 const { log } = require('console');
+const archiver = require('archiver');
 require('dotenv').config();
 
 const app = express();
@@ -226,6 +227,42 @@ app.delete('/tce/:idUnico', async (req, res) => {
       .status(500)
       .send({ message: 'Erro ao deletar o registro.', details: error.message });
   }
+});
+
+// Endpoint para baixar uma pasta compactada como ZIP
+app.get('/tce/down1', (req, res) => {
+  const folderPath = path.join(__dirname, 'tce');
+
+  if (!fs.existsSync(folderPath)) {
+    return res.status(404).send({ error: 'Pasta TCE não encontrada.' });
+  }
+
+  // Define o nome do arquivo ZIP
+  const zipFileName = `tces.zip`;
+
+  // Configura cabeçalhos para download
+  res.setHeader('Content-Disposition', `attachment; filename=${zipFileName}`);
+  res.setHeader('Content-Type', 'application/zip');
+
+  // Cria o stream de saída do arquivo ZIP
+  const archive = archiver('zip', {
+    zlib: { level: 9 }, // nível máximo de compressão
+  });
+
+  // Encaminha o ZIP para a resposta HTTP
+  archive.pipe(res);
+
+  // Adiciona todos os arquivos da pasta ao ZIP
+  archive.directory(folderPath, false);
+
+  // Finaliza o arquivo ZIP
+  archive.finalize();
+
+  archive.on('error', (err) => {
+    res
+      .status(500)
+      .send({ error: 'Erro ao criar o arquivo ZIP.', details: err.message });
+  });
 });
 
 // Inicia o servidor
