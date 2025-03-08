@@ -8,6 +8,11 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const VERSAO = {
+  API: 'API-Cedup-TCE',
+  Versão: '08/03/2025 07:57',
+  Porta: PORT,
+};
 
 // Configuração do banco de dados SQLite com o Knex
 const db = knex({
@@ -142,10 +147,7 @@ app.post('/tce', async (req, res) => {
 
 // Endpoint da versão
 app.get('/', async (req, res) => {
-  res.status(200).send({
-    API: 'API-Cedup-TCE',
-    Versão: '08/03/2025 07:57',
-  });
+  res.status(200).send(VERSAO);
 });
 
 // Endpoint para obter todos os registros da tabela tces ordenados por nomeEstagiario
