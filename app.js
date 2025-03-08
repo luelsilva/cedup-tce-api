@@ -144,7 +144,7 @@ app.post('/tce', async (req, res) => {
 app.get('/', async (req, res) => {
   res.status(200).send({
     API: 'API-Cedup-TCE',
-    Versão: '01/03/2025 22:17',
+    Versão: '08/03/2025 07:57',
   });
 });
 
