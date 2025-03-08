@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const knex = require('knex');
-const { log } = require('console');
 require('dotenv').config();
 
 const app = express();
@@ -115,17 +114,17 @@ app.post('/tce', async (req, res) => {
         .update({
           ultimaVersao: nextVersion,
           dataAlteracao: db.fn.now(),
-          matriculaEstagiario: jsonObject.matriculaEstagiario || null,
-          nomeEstagiario: jsonObject.nomeEstagiario || null,
-          nomeEmpresa: jsonObject.nomeEmpresa || null,
+          matriculaEstagiario: jsonObject.matriculaEstagiario || '',
+          nomeEstagiario: jsonObject.nomeEstagiario || '',
+          nomeEmpresa: jsonObject.nomeEmpresa || '',
         });
     } else {
       // Insere um novo registro
       await db('tces').insert({
         idUnico: jsonObject.idUnico,
-        matriculaEstagiario: jsonObject.matriculaEstagiario || null,
-        nomeEstagiario: jsonObject.nomeEstagiario || null,
-        nomeEmpresa: jsonObject.nomeEmpresa || null,
+        matriculaEstagiario: jsonObject.matriculaEstagiario || '',
+        nomeEstagiario: jsonObject.nomeEstagiario || '',
+        nomeEmpresa: jsonObject.nomeEmpresa || '',
         ultimaVersao: nextVersion,
         dataCriacao: db.fn.now(),
         dataAlteracao: db.fn.now(),
